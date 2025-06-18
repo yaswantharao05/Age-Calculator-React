@@ -19,9 +19,9 @@ A simple and interactive age calculator built with React. This application calcu
 
 ### 🏠 Home Page
 
-This is the initial view of the app when loaded.
+This is the view of the app when provided with date of birth.
 
-![Home Page](./age_calculator.jpg)
+![Home Page](./age_calculator1.jpg)
 
 ---
 
