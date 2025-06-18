@@ -1,68 +1,58 @@
-import './style.css'
+import './style.css';
 
-function F1(){
+function F1() {
     const now = new Date();
     const day = now.getDate();
-    const month = now.getMonth();
+    const month = now.getMonth() + 1; // getMonth() returns 0-indexed month
     const year = now.getFullYear();
 
-    var today = `${year}`
-    if(month<10){
-        today = today + `-0${month}`;
-    } else {
-        today = today + `-${month}`;
-    }
-    if(day<10){
-        today = today + `-0${day}`;
-    } else {
-        today = today + `-${day}`;
-    }    
-    
-
-    // console.log(today);
-    //month: 0-January, 1-February ..... 11-December
+    const today = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
 
     const CalculateAge = () => {
-        if(document.getElementById('dob').value != "")
-        {
-            var dob = new Date(document.getElementById('dob').value);
+        const dobInput = document.getElementById('dob').value;
 
-            console.log("dob: "+`${dob.getDate()}/${dob.getMonth()+1}/${dob.getFullYear()}`);
-            var age = year - dob.getFullYear();
+        if (dobInput) {
+            const dob = new Date(dobInput);
+            const current = new Date();
 
-            if(dob.getMonth() > month){
-                age = age - 1;
-                console.log("month");
-            } else if(dob.getMonth() == month && dob.getDate()>day){
-                age = age - 1;
-                console.log("day");
+            let years = current.getFullYear() - dob.getFullYear();
+            let months = current.getMonth() - dob.getMonth();
+            let days = current.getDate() - dob.getDate();
+
+            if (days < 0) {
+                // borrow days from previous month
+                months--;
+                const prevMonth = new Date(current.getFullYear(), current.getMonth(), 0);
+                days += prevMonth.getDate();
             }
 
-            document.getElementById("age").innerText = `Your are ${age} years old`;
-            return;   
-        }
-        else{
-            alert("Please Enter you Date of Birth!");
-        }
-          
-    }
+            if (months < 0) {
+                months += 12;
+                years--;
+            }
 
+            document.getElementById("age").innerText = 
+                `You are ${years} year(s), ${months} month(s), and ${days} day(s) old.`;
+        } else {
+            alert("Please enter your Date of Birth!");
+        }
+    };
 
-    return(
+    return (
         <center>
             <div>
-                <br/>
+                <br />
                 <h1>Age Calculator</h1>
-                <br/>
+                <br />
                 <h5>Enter your date of birth</h5>
-                <input max={today} id="dob" type="date" /><br/>
-                <br/>
-                <button onClick={CalculateAge} class="btn btn-primary">Calculate Age</button>
-                <br/><br/>
+                <input max={today} id="dob" type="date" /><br />
+                <br />
+                <button onClick={CalculateAge} className="btn btn-primary">Calculate Age</button>
+                <br /><br />
                 <h3 id="age"></h3>
             </div>
         </center>
-    )
+    );
 }
 
 export default F1;
